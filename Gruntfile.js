@@ -4,7 +4,7 @@ module.exports = function(grunt){
     var config  = {
         concat: {
             app: {
-                dest: "generated/todo-app.js",
+                dest: "generated/js/todo-app.js",
                 src: [
                     "js/index.js"
                 ]
@@ -13,7 +13,16 @@ module.exports = function(grunt){
         watch: {
             app: {
                 files: ["<%= concat.app.scr %>"],
-                tasks: ["concat"]
+                tasks: ["concat", "less"]
+            }
+        },
+        less: {
+            options: {
+                ieCompat: false
+            },
+            dev: {
+                //options: {},
+                files: {"generated/css/style.css" : "css/style.less"}
             }
         }
     };
@@ -23,6 +32,8 @@ module.exports = function(grunt){
 
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-contrib-less");
 
     grunt.registerTask("concatenar", ["concat","watch"]);
+    grunt.registerTask("doLess", ["less"]);
 };
