@@ -11,9 +11,13 @@ module.exports = function(grunt){
             }
         },
         watch: {
-            app: {
+            js: {
                 files: ["<%= concat.app.scr %>"],
-                tasks: ["concat", "less"]
+                tasks: ["concat"]
+            },
+            less: {
+                files: ["<%= less.dev.scr %>"],
+                tasks: ["less:dev"]
             }
         },
         less: {
@@ -22,7 +26,8 @@ module.exports = function(grunt){
             },
             dev: {
                 //options: {},
-                files: {"generated/css/style.css" : "css/style.less"}
+                src: "css/style.less",
+                dest: "generated/css/style.css"
             }
         }
     };
@@ -34,6 +39,6 @@ module.exports = function(grunt){
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-less");
 
-    grunt.registerTask("concatenar", ["concat","watch"]);
+    grunt.registerTask("default", ["less","concat","watch"]);
     grunt.registerTask("doLess", ["less"]);
 };
