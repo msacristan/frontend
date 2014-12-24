@@ -10,7 +10,11 @@ module.exports = function(grunt){
             },
             js: {
                 vendor: [
-                    "vendor/js/underscore.js"
+                    "vendor/js/underscore.js",
+                    "vendor/js/underscore.string.js",
+                    "vendor/js/backbone.js",
+                    "vendor/js/backbone.stickit.js",
+                    "vendor/js/handlebars.js"
                 ],
                 src: [
                     "js/index.js"
