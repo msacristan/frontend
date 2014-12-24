@@ -11,7 +11,13 @@ module.exports = function(grunt){
             js: {
                 src: [
                     "js/index.js"
-                ]            }
+                ]
+            },
+            html: {
+                src: [
+                    "index.html"
+                ]
+            }
         },
         concat: {
             app: {
@@ -20,6 +26,13 @@ module.exports = function(grunt){
             }
         },
         watch: {
+            options: {
+                livereload: true
+            },
+            html: {
+                files: ["<%= files.html.src %>"],
+                tasks: ["copy"]
+            },
             js: {
                 files: ["<%= files.js.src %>"],
                 tasks: ["concat"]
@@ -37,12 +50,22 @@ module.exports = function(grunt){
                 //options: {},
                 src: "<%= files.less.src %>",
                 dest: "generated/css/style.css"
-            }
+            },
+            dist:{
+                options: {
+                    cleancss: true,
+                    compress: true
+                },
+                    src: "<%= files.less.src %>",
+                    dest: "dist/css/style.css"
+                }
         },
         copy : {
             html:{
-                src: "index.html",
-                dest: "generated/index.html"
+                files: {
+                    "generated/index.html" : "<%= files.html.src %>",
+                    "dist/index.html" : "<%= files.html.src %>"
+                }
             }
         },
         server:{
@@ -50,6 +73,23 @@ module.exports = function(grunt){
             web: {
                 port: 8000
             }
+        },
+        open:{
+            dev:{
+                path: "http://localhost:<%= server.web.port %>"
+            }
+        },
+        uglify:{
+            dist: {
+                src: "<%= concat.app.dest %>", // input from the concat_sourcemap process
+                dest: "dist/js/app.min.js"
+            }
+
+        },
+        clean : {
+            workspaces: [
+                "dist", "generated"
+            ]
         }
     };
     grunt.initConfig(config);
@@ -60,7 +100,12 @@ module.exports = function(grunt){
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-less");
     grunt.loadNpmTasks("grunt-contrib-copy");
+    grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-open");
 
-    grunt.registerTask("default", ["less","concat", "copy", "server","watch"]);
+    grunt.registerTask("default", ["less","concat", "copy", "server", "open","watch"]);
+    grunt.registerTask("build", ["clean", "less:dist", "concat", "uglify", "copy"]);
     grunt.registerTask("doLess", ["less"]);
+    grunt.registerTask("neatHouse", ["clean"]);
 };

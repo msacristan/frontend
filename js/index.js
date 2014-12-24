@@ -1,1 +1,1 @@
-alert("Hello");
+var x = 2 + 2;

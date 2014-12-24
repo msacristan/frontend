@@ -6,6 +6,8 @@ module.exports = function(grunt){
       webRoot = grunt.config.get("server.base") || "dist";
 
       app = express();
+      //app.use(express.compress()); // no longer in express
+      //app.use(express.errorhandler()); // no longer in express
       app.use(express.static("" + (process.cwd()) + "/" + webRoot));
       app.listen(webPort);
       grunt.log.writeln("Starting server here...");
