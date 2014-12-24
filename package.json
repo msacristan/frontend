@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "express": "^4.10.6",
-    "grunt-open": "^0.2.3"
+    "grunt-open": "^0.2.3",
+    "matchdep": "^0.3.0"
   }
 }

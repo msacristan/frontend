@@ -9,6 +9,9 @@ module.exports = function(grunt){
                 ]
             },
             js: {
+                vendor: [
+                    "vendor/js/underscore.js"
+                ],
                 src: [
                     "js/index.js"
                 ]
@@ -22,7 +25,7 @@ module.exports = function(grunt){
         concat: {
             app: {
                 dest: "generated/js/todo-app.js",
-                src: "<%= files.js.src %>"
+                src: ["<%= files.js.vendor %>","<%= files.js.src %>"]
             }
         },
         watch: {
@@ -96,13 +99,14 @@ module.exports = function(grunt){
 
     grunt.loadTasks("tasks");
 
-    grunt.loadNpmTasks("grunt-contrib-concat");
-    grunt.loadNpmTasks("grunt-contrib-watch");
-    grunt.loadNpmTasks("grunt-contrib-less");
-    grunt.loadNpmTasks("grunt-contrib-copy");
-    grunt.loadNpmTasks("grunt-contrib-clean");
-    grunt.loadNpmTasks("grunt-contrib-uglify");
-    grunt.loadNpmTasks("grunt-open");
+    //grunt.loadNpmTasks("grunt-contrib-concat");
+    //grunt.loadNpmTasks("grunt-contrib-watch");
+    //grunt.loadNpmTasks("grunt-contrib-less");
+    //grunt.loadNpmTasks("grunt-contrib-copy");
+    //grunt.loadNpmTasks("grunt-contrib-clean");
+    //grunt.loadNpmTasks("grunt-contrib-uglify");
+    //grunt.loadNpmTasks("grunt-open");
+    require('matchdep').filterAll('grunt-*').forEach(grunt.loadNpmTasks)
 
     grunt.registerTask("default", ["less","concat", "copy", "server", "open","watch"]);
     grunt.registerTask("build", ["clean", "less:dist", "concat", "uglify", "copy"]);
